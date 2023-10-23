@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,5 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource("category", CategoryController::class);
-Route::post("category/{id}", [CategoryController::class, "category-update"]);
+Route::post("category/{id}", [CategoryController::class, "update"])->name("category-customer");
 
+Route::apiResource("carousel", CarouselController::class);
+Route::post("carousel/{id}", [CarouselController::class, "update"])->name("carousel-customer");
