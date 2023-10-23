@@ -125,4 +125,35 @@ class DestinationController extends Controller
             "status" => 200,
         ]);
     }
+
+    //research by name
+    public function search(Request $request)
+    {
+
+        $search = $request->get('search');
+        $destinations = Destination::where('title', '%', $search)->first();
+        if ($destinations) {
+            return response()->json([
+                "destination" => $destinations,
+                "status" => 200,
+            ]);
+        } else {
+            return response()->json(['error' => 'Destination not found'], 404);
+        }
+    }
+
+    public function searchByChar(Request $request)
+    {
+        $search = $request->get('search');
+        //search by char similar
+        $destinations = Destination::where('title', 'like', '%' . $search . '%')->get();
+        if ($destinations) {
+            return response()->json([
+                "destination" => $destinations,
+                "status" => 200,
+            ]);
+        } else {
+            return response()->json(['error' => 'Destination not found'], 404);
+        }
+    }
 }

@@ -29,3 +29,8 @@ Route::post("carousel/{id}", [CarouselController::class, "update"])->name("carou
 
 Route::apiResource("destination", DestinationController::class);
 Route::post("destination/{id}", [DestinationController::class, "update"])->name("destination-update");
+
+//search
+Route::get("searchs", [DestinationController::class, "search"])->name("destination-search");
+Route::get("search", [DestinationController::class, "searchByChar"])->name("destination-searchByChar");
+
