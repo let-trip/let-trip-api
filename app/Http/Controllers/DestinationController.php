@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Destination;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 
 class DestinationController extends Controller
@@ -11,7 +13,12 @@ class DestinationController extends Controller
      */
     public function index()
     {
-        //
+        //index all destinations from database
+        $destinations = Destination::all();
+        return response()->json([
+            "destinations" =>$destinations,
+            "status" => 200,
+        ]);
     }
 
     /**
@@ -19,7 +26,30 @@ class DestinationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //store all request in database
+        $destination = new Destination();
+        $destination->title = $request->title;
+        $destination->description = $request->description;
+        $destination->address = $request->address;
+        $destination->views = $request->views;
+        $destination->area = $request->area;
+
+        $destination->images = $request->images;
+        // upload image to storage for Cloudinary
+        if ($request->hasFile('images')) {
+            $imagePath = $request->file('images')->getRealPath();
+            $uploadedImage = Cloudinary::upload($imagePath)->getSecurePath();
+            $destination->images = $uploadedImage;
+        } else if ($request->images) {
+            $imageBase64 = $request->images;
+            $uploadedImage = Cloudinary::upload("data:image/png;base64," . $imageBase64)->getSecurePath();
+            $destination->images = $uploadedImage;
+        }
+        $destination->save();
+        return response()->json([
+            "message" => "Destination added successfully!",
+            "status" => 200,
+        ]);
     }
 
     /**
@@ -27,7 +57,12 @@ class DestinationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        //show with id api
+        $destination = Destination::find($id);
+        return response()->json([
+            "destination" => $destination,
+            "status" => 200,
+        ]);
     }
 
     /**
@@ -35,7 +70,46 @@ class DestinationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //update with id api
+        $destination = Destination::find($id);
+
+        // Get all the input data from the request
+        $data = $request->all();
+
+        // Check if '$carousel' is present in the request
+        if ($request->hasFile('images') || $request->filled('images')) {
+            // Retrieve the old image from Cloudinary
+            $oldImage = Cloudinary::getImage($destination->images);
+
+            // If the old image exists, delete it from Cloudinary
+            if ($oldImage->getPublicId() != null) {
+                Cloudinary::destroy($oldImage->getPublicId());
+            }
+
+            // Set the new image based on the type of input (file or base64)
+            if ($request->hasFile('images')) {
+                $imagePath = $request->file('images')->getRealPath();
+                $uploadedImage = Cloudinary::upload($imagePath)->getSecurePath();
+            } else {
+                $imageBase64 = $request->images;
+                $uploadedImage = Cloudinary::upload("data:image/png;base64," . $imageBase64)->getSecurePath();
+            }
+            $data['images'] = $uploadedImage;
+        }
+
+        $data['title'] = $request->title;
+        $data['description'] = $request->description;
+        $data['address'] = $request->address;
+        $data['views'] = $request->views;
+        $data['area'] = $request->area;
+
+        // Update the $carousel with the updated data
+        $destination->update($data);
+        return response()->json([
+            "message" => "Destination updated successfully!",
+            "destination" => $destination,
+            "status" => 200,
+        ]);
     }
 
     /**
@@ -43,6 +117,12 @@ class DestinationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //destroy with id api
+        $destination = Destination::find($id);
+        $destination->delete();
+        return response()->json([
+            "message" => "Destination deleted successfully!",
+            "status" => 200,
+        ]);
     }
 }
