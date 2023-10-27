@@ -34,3 +34,9 @@ Route::post("destination/{id}", [DestinationController::class, "update"])->name(
 Route::get("searchs", [DestinationController::class, "search"])->name("destination-search");
 Route::get("search", [DestinationController::class, "searchByChar"])->name("destination-searchByChar");
 
+//nearby locations
+Route::post("nearby", [DestinationController::class, "nearbyDestination"])->name("destination-nearby");
+
+//popular locations
+Route::get("popular", [DestinationController::class, "popularDestination"])->name("destination-popular");
+

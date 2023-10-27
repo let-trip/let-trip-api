@@ -13,6 +13,8 @@ class Destination extends Model
         "title",
         "description",
         "address",
+        "coordinate_lat",
+        "coordinate_long",
         "views",
         "area",
         "images",
