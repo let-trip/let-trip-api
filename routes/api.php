@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DestinationController;
@@ -39,4 +40,8 @@ Route::post("nearby", [DestinationController::class, "nearbyDestination"])->name
 
 //popular locations
 Route::get("popular", [DestinationController::class, "popularDestination"])->name("destination-popular");
+
+//banners
+Route::apiResource("banner", BannerController::class);
+Route::post("banner/{id}", [BannerController::class, "update"])->name("banner-update");
 

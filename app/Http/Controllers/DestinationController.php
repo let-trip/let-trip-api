@@ -17,6 +17,7 @@ class DestinationController extends Controller
         $destinations = Destination::all();
         return response()->json([
             "destinations" =>$destinations,
+            "count" => $destinations->count(),
             "status" => 200,
         ]);
     }
@@ -63,6 +64,7 @@ class DestinationController extends Controller
         $destination = Destination::find($id);
         return response()->json([
             "destination" => $destination,
+            "count" => $destination->count(),
             "status" => 200,
         ]);
     }
@@ -139,6 +141,7 @@ class DestinationController extends Controller
         if ($destinations) {
             return response()->json([
                 "destination" => $destinations,
+                "count" => $destinations->count(),
                 "status" => 200,
             ]);
         } else {
@@ -154,6 +157,7 @@ class DestinationController extends Controller
         if ($destinations) {
             return response()->json([
                 "destination" => $destinations,
+                "count" => $destinations->count(),
                 "status" => 200,
             ]);
         } else {
@@ -201,6 +205,7 @@ class DestinationController extends Controller
         $destinations = Destination::where('views', '>', 10)->orderBy('views', 'desc')->limit(5)->get();
         return response()->json([
             "destination" => $destinations,
+            "count" => $destinations->count(),
             "status" => 200,
         ]);
     }
