@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->string('address')->nullable();
+            $table->string('coordinate_lat')->nullable();
+            $table->string('coordinate_long')->nullable();
             $table->integer('views')->nullable();
             $table->string('area')->nullable();
             $table->string('images')->nullable();

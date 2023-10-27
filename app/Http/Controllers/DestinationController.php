@@ -31,6 +31,8 @@ class DestinationController extends Controller
         $destination->title = $request->title;
         $destination->description = $request->description;
         $destination->address = $request->address;
+        $destination->coordinate_lat = $request->coordinate_lat;
+        $destination->coordinate_long = $request->coordinate_long;
         $destination->views = $request->views;
         $destination->area = $request->area;
 
@@ -102,6 +104,8 @@ class DestinationController extends Controller
         $data['address'] = $request->address;
         $data['views'] = $request->views;
         $data['area'] = $request->area;
+        $data['coordinate_lat'] = $request->coordinate_lat;
+        $data['coordinate_long'] = $request->coordinate_long;
 
         // Update the $carousel with the updated data
         $destination->update($data);
@@ -156,4 +160,49 @@ class DestinationController extends Controller
             return response()->json(['error' => 'Destination not found'], 404);
         }
     }
+
+    public function nearbyDestination(Request $request)
+    {
+        $input = $request->all(); // Get all input data from the request
+
+        $lat = $input['lat'] ?? null; // Get the 'lat' parameter from the input data
+        $long = $input['long'] ?? null; // Get the 'long' parameter from the input data
+
+        if ($lat === null || $long === null) {
+            return response()->json(['error' => 'Latitude and longitude are required'], 400);
+        }
+
+        $radius = 1; // 10km radius
+
+        // Haversine formula to calculate distances
+        $destinations = Destination::select('*')
+            ->selectRaw(
+                '( 6371 * acos( cos( radians(?) ) * cos( radians( coordinate_lat ) ) * cos( radians( coordinate_long ) - radians(?) ) + sin( radians(?) ) * sin( radians( coordinate_lat ) ) ) ) AS distance',
+                [$lat, $long, $lat]
+            )
+            ->having('distance', '<=', $radius)
+            ->orderBy('distance')
+            ->get();
+
+        if ($destinations->isNotEmpty()) {
+            return response()->json([
+                "destination" => $destinations,
+                "count" => $destinations->count(),
+                "status" => 200,
+            ]);
+        } else {
+            return response()->json(['error' => 'Destination not found within the specified range'], 404);
+        }
+    }
+
+    //get popular destination with views more than 20 views and order by views desc and limit 5 data only  (popular destination)
+    public function popularDestination()
+    {
+        $destinations = Destination::where('views', '>', 10)->orderBy('views', 'desc')->limit(5)->get();
+        return response()->json([
+            "destination" => $destinations,
+            "status" => 200,
+        ]);
+    }
+
 }
