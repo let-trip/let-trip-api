@@ -6,7 +6,7 @@ MySQL 8.0
 ```
 
 ### Endpoint 
-BASE_API         :  [http://server.mekmunsopheaktra.com:8000/](http://server.mekmunsopheaktra.com/)
+BASE_API         :  [http://server.mekmunsopheaktra.com](http://server.mekmunsopheaktra.com/)
 
 ### Server
 ```
