@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -45,3 +47,9 @@ Route::get("popular", [DestinationController::class, "popularDestination"])->nam
 Route::apiResource("banner", BannerController::class);
 Route::post("banner/{id}", [BannerController::class, "update"])->name("banner-update");
 
+
+//user auth
+Route::post('/auth/register', [AuthController::class, 'createUser']);
+Route::post('/auth/login', [AuthController::class, 'loginUser']);
+//login with token
+Route::post('/auth/login/token', [AuthController::class, 'loginWithToken']);
