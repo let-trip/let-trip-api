@@ -26,6 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource("category", CategoryController::class);
 Route::post("category/{id}", [CategoryController::class, "update"])->name("category-update");
+//set route to get category by name use method post
+Route::post("categoryName", [CategoryController::class, "getCategoryByName"])->name("category-name");
 
 Route::apiResource("carousel", CarouselController::class);
 Route::post("carousel/{id}", [CarouselController::class, "update"])->name("carousel-update");
