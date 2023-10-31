@@ -120,4 +120,22 @@ class CategoryController extends Controller
             "status" => 200,
         ]);
     }
+
+    //get category by name request
+    public function getCategoryByName(Request $request)
+    {
+        $category = Category::where('category_title', 'LIKE', '%' . $request->category_title . '%')->get();
+        //if category not found
+        if ($category->isEmpty()) {
+            return response()->json([
+                "message" => "Category not found!",
+                "status" => 404,
+            ]);
+        }else{
+            return response()->json([
+                "category" => $category,
+                "status" => 200,
+            ]);
+        }
+    }
 }
