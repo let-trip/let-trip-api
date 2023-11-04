@@ -13,7 +13,7 @@ class DestinationController extends Controller
      */
     public function index()
     {
-        //index all destinations from database
+        //index all destinations from databases
         $destinations = Destination::all();
         return response()->json([
             "destinations" =>$destinations,
