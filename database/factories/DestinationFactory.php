@@ -24,7 +24,7 @@ class DestinationFactory extends Factory
             "coordinate_long" => $this->faker->longitude(104.90282871249293, 104.94239872147962),
             "views" => $this->faker->numberBetween(0, 100),
             "area" => $this->faker->numberBetween(0, 100),
-            "images" => $this->faker->imageUrl(),
+            "images" => $this->faker->imageUrl(332,168),
         ];
     }
 }

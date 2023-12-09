@@ -209,5 +209,4 @@ class DestinationController extends Controller
             "status" => 200,
         ]);
     }
-
 }
