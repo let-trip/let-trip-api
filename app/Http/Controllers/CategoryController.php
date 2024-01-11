@@ -15,7 +15,7 @@ class CategoryController extends Controller
     {
         //index all categories api
 
-        $categories = Category::all();
+        $categories = Category::with('destinations')->get();
         return response()->json([
                 "categories" =>$categories,
                 "status" => 200,
@@ -54,7 +54,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         //show categories api with id
-        $category = Category::find($id);
+        $category = Category::with('destinations')->find($id);
         return response()->json([
             "category" => $category,
             "status" => 200,

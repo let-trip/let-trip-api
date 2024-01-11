@@ -14,4 +14,9 @@ class Category extends Model
          'category_image',
      ];
 
+    public function Destinations(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Destination::class);
+    }
+
 }

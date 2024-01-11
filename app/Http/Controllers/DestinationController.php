@@ -14,7 +14,7 @@ class DestinationController extends Controller
     public function index()
     {
         //index all destinations from databases
-        $destinations = Destination::all();
+        $destinations = Destination::with('categories')->get();
         return response()->json([
             "destinations" =>$destinations,
             "count" => $destinations->count(),
@@ -61,7 +61,7 @@ class DestinationController extends Controller
     public function show(string $id)
     {
         //show with id api
-        $destination = Destination::find($id);
+        $destination = Destination::with('categories')->find($id);
         return response()->json([
             "destination" => $destination,
             "count" => $destination->count(),

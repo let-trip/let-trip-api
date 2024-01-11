@@ -19,4 +19,9 @@ class Destination extends Model
         "area",
         "images",
     ];
+
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }
