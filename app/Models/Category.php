@@ -19,4 +19,10 @@ class Category extends Model
         return $this->belongsToMany(Destination::class);
     }
 
+    //Attraction
+    public function attractions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Attraction::class);
+    }
+
 }

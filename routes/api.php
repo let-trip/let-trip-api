@@ -55,3 +55,11 @@ Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
 //login with token
 Route::post('/auth/login/token', [AuthController::class, 'loginWithToken']);
+
+//call en folder in here
+Route::prefix("en")
+    ->group(function () {
+        foreach (glob(dirname(__FILE__) . "/en/*.php") as $filename) {
+            include $filename;
+        }
+    });
