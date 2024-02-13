@@ -5,6 +5,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -63,3 +64,8 @@ Route::prefix("en")
             include $filename;
         }
     });
+
+//lecturer
+Route::apiResource("lecturer", LecturerController::class);
+//randomLecturer route
+Route::get("lecturer-random", [LecturerController::class, "randomLecturer"])->name("lecturer-random");
